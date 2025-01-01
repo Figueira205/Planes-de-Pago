@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Planificador de Pagos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="logo">
+      <a href="#">Planificador de Pagos</a>
+    </div>
+    <div class="menu">
+      <a href="#" id="btnInicio">Inicio</a>
+      <a href="#" id="btnFAQ">Preguntas Frecuentes</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Planificador de Pagos Personalizados</h1>
+    <p>Aquí puedes crear planes de pago personalizados, ver su historial y descargar la información.</p>
+
+    <div class="form-section">
+      <h2>Crear Nuevo Plan</h2>
+      <div class="form-group">
+        <label>Nombre del Cliente:</label>
+        <input type="text" id="nombreCliente" placeholder="Ej: Pedro Martín" />
+      </div>
+
+      <!-- Sección Acreedores -->
+      <div class="acreedores-section">
+        <h3>Añadir Acreedores</h3>
+        <div class="form-group acreedor-group">
+          <input type="text" class="acreedor-nombre" placeholder="Nombre Acreedor" />
+          <input type="number" step="0.01" class="acreedor-deuda" placeholder="Deuda" />
+          <button type="button" id="btnAddAcreedor">Añadir Acreedor</button>
+        </div>
+        <ul id="listaAcreedores"></ul>
+      </div>
+
+      <!-- Sección Bienes -->
+      <div class="bienes-section">
+        <h3>Añadir Bienes</h3>
+        <div class="form-group bien-group">
+          <input type="text" class="bien-nombre" placeholder="Nombre del Bien" />
+          <input type="number" step="0.01" class="bien-valor" placeholder="Valor del Bien" />
+          <button type="button" id="btnAddBien">Añadir Bien</button>
+        </div>
+        <ul id="listaBienes"></ul>
+        <p><strong>Valor total de los Bienes:</strong> <span id="valorTotalBienes">0.00</span></p>
+      </div>
+
+      <div class="form-group">
+        <label>Periodo de Pago (Meses):</label>
+        <select id="periodoMeses">
+          <option value="36">36</option>
+          <option value="60" selected>60</option>
+          <option value="otro">Otro</option>
+        </select>
+        <input type="number" id="periodoMesesOtro" placeholder="Especificar meses" style="display:none;" />
+      </div>
+
+      <div class="form-group limite-group">
+        <label>Establecer Límite:</label>
+        <input type="checkbox" id="checkLimite"/>
+        <input type="number" step="0.01" placeholder="Límite en €" id="limiteMonto" disabled />
+      </div>
+
+      <div class="buttons">
+        <button id="crearPlan">Crear</button>
+        <button id="limpiarCampos">Limpiar</button>
+      </div>
+
+      <div class="tabla-resultados" id="tablaResultados">
+        <!-- Tabla generada dinámicamente por JS -->
+      </div>
+    </div>
+
+    <div class="history-section">
+      <h2>Historial de Planes</h2>
+      <ul class="history-list" id="historialPlanes">
+        <!-- Historial dinámico -->
+      </ul>
+      <div class="buttons">
+        <button id="btnNuevoPlan">Crear Nuevo Plan</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>©2024 Creditaria Estudio Legal. Todos los derechos reservados.</p>
+    <p><a href="#">Términos de Servicio</a> | <a href="#">Política de Privacidad</a></p>
+  </footer>
+
+  <!-- Modal para ver planes anteriores -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">X</button>
+      <div id="modalTableContainer"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
