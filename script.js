@@ -290,7 +290,34 @@ document.addEventListener("DOMContentLoaded", () => {
     btnLimpiarCampos.addEventListener("click", () => {
       limpiarCampos();
     });
-  
+
+    // Descargar Plan en PDF
+  function descargarPlanComoPDF(plan) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text(`Plan de Pago - Cliente: ${plan.cliente}`, 10, 10);
+    doc.setFontSize(12);
+    doc.text(`Fecha: ${plan.fecha}`, 10, 20);
+
+    doc.autoTable({
+      head: [['Identidad Acreedora', 'Deuda', 'Porcentaje', 'Importe a Abonar', 'Meses', 'Cuotas Mensuales']],
+      body: plan.data.map(row => [
+        row.nombre,
+        `${row.deuda} €`,
+        `${row.porcentaje}%`,
+        `${row.importe} €`,
+        row.meses,
+        `${row.cuotaMensual} €`
+      ]),
+      startY: 30,
+    });
+
+    doc.save(`Plan_Pago_${plan.cliente.replace(/\s+/g, '_')}.pdf`);
+  }
+
+
     function limpiarCampos() {
       nombreCliente.value = "";
       periodoMeses.value = "60";
