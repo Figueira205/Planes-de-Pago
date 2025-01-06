@@ -1,12 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
   const nombreCliente = document.getElementById("nombreCliente");
+  const periodoMeses = document.getElementById("periodoMeses");
+  const periodoMesesOtro = document.getElementById("periodoMesesOtro");
+  const checkLimite = document.getElementById("checkLimite");
+  const limiteMonto = document.getElementById("limiteMonto");
   const btnAddAcreedor = document.getElementById("btnAddAcreedor");
   const listaAcreedores = document.getElementById("listaAcreedores");
+  const btnAddBien = document.getElementById("btnAddBien");
+  const listaBienes = document.getElementById("listaBienes");
+  const valorTotalBienesEl = document.getElementById("valorTotalBienes");
   const btnCrearPlan = document.getElementById("crearPlan");
+  const btnLimpiarCampos = document.getElementById("limpiarCampos");
   const historialPlanes = document.getElementById("historialPlanes");
 
   let acreedores = [];
+  let bienes = [];
   let historial = [];
+
+  // Mostrar/Ocultar input de meses "otro"
+  periodoMeses.addEventListener("change", () => {
+    if (periodoMeses.value === "otro") {
+      periodoMesesOtro.style.display = "block";
+    } else {
+      periodoMesesOtro.style.display = "none";
+    }
+  });
+
+  // Habilitar/deshabilitar límite
+  checkLimite.addEventListener("change", () => {
+    limiteMonto.disabled = !checkLimite.checked;
+  });
 
   // Añadir Acreedor
   btnAddAcreedor.addEventListener("click", () => {
@@ -42,11 +65,52 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Añadir Bien
+  btnAddBien.addEventListener("click", () => {
+    const nombreBienInput = document.querySelector(".bien-nombre");
+    const valorBienInput = document.querySelector(".bien-valor");
+
+    const nombreB = nombreBienInput.value.trim();
+    const valorB = parseFloat(valorBienInput.value.trim());
+
+    if (nombreB && !isNaN(valorB)) {
+      bienes.push({ nombre: nombreB, valor: valorB });
+      actualizarListaBienes();
+      nombreBienInput.value = "";
+      valorBienInput.value = "";
+    } else {
+      alert("Por favor, ingresa un nombre y un valor válidos.");
+    }
+  });
+
+  function actualizarListaBienes() {
+    listaBienes.innerHTML = "";
+    const total = bienes.reduce((acc, b) => acc + b.valor, 0);
+    valorTotalBienesEl.textContent = total.toFixed(2);
+    bienes.forEach((b, index) => {
+      const li = document.createElement("li");
+      li.textContent = `${b.nombre} - Valor: ${b.valor.toFixed(2)} €`;
+      const btnEliminar = document.createElement("button");
+      btnEliminar.textContent = "Eliminar";
+      btnEliminar.addEventListener("click", () => {
+        bienes.splice(index, 1);
+        actualizarListaBienes();
+      });
+      li.appendChild(btnEliminar);
+      listaBienes.appendChild(li);
+    });
+  }
+
   // Crear Plan
   btnCrearPlan.addEventListener("click", () => {
     const cliente = nombreCliente.value.trim();
-    if (!cliente || !acreedores.length) {
-      alert("Completa los campos de cliente y acreedores.");
+    let mesesVal = periodoMeses.value === "otro" ? parseInt(periodoMesesOtro.value.trim()) : parseInt(periodoMeses.value);
+    if (isNaN(mesesVal) || mesesVal <= 0) mesesVal = 60;
+
+    const valorBienes = bienes.reduce((acc, b) => acc + b.valor, 0);
+
+    if (!cliente || !acreedores.length || !bienes.length) {
+      alert("Completa todos los campos (cliente, acreedores y bienes)");
       return;
     }
 
@@ -57,7 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
       data: acreedores.map(a => ({
         nombre: a.nombre,
         deuda: a.deuda.toFixed(2),
-        porcentaje: ((a.deuda / deudaTotal) * 100).toFixed(2)
+        porcentaje: ((a.deuda / deudaTotal) * 100).toFixed(2),
+        importe: ((a.deuda / deudaTotal) * valorBienes).toFixed(2),
+        meses: mesesVal,
+        cuotaMensual: (((a.deuda / deudaTotal) * valorBienes) / mesesVal).toFixed(2)
       }))
     };
 
@@ -94,12 +161,35 @@ document.addEventListener("DOMContentLoaded", () => {
     doc.text(`Fecha: ${plan.fecha}`, 10, 20);
 
     doc.autoTable({
-      head: [['Identidad Acreedora', 'Deuda', 'Porcentaje']],
-      body: plan.data.map(row => [row.nombre, row.deuda, `${row.porcentaje}%`]),
+      head: [['Identidad Acreedora', 'Deuda', 'Porcentaje', 'Importe a Abonar', 'Meses', 'Cuotas Mensuales']],
+      body: plan.data.map(row => [
+        row.nombre,
+        `${row.deuda} €`,
+        `${row.porcentaje}%`,
+        `${row.importe} €`,
+        row.meses,
+        `${row.cuotaMensual} €`
+      ]),
       startY: 30,
     });
 
     doc.save(`Plan_Pago_${plan.cliente.replace(/\s+/g, '_')}.pdf`);
   }
+
+  // Limpiar campos
+  btnLimpiarCampos.addEventListener("click", () => {
+    nombreCliente.value = "";
+    periodoMeses.value = "60";
+    periodoMesesOtro.value = "";
+    periodoMesesOtro.style.display = "none";
+    checkLimite.checked = false;
+    limiteMonto.disabled = true;
+    limiteMonto.value = "";
+    acreedores = [];
+    bienes = [];
+    actualizarListaAcreedores();
+    actualizarListaBienes();
+  });
 });
+
 
