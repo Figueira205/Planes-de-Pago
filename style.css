@@ -45,8 +45,23 @@ body {
   /* Inputs y botones */
   .form-group {
     margin-bottom: 15px;
+    display: inline-flex;
+    margin-right: 20px;
   }
   
+#nombrec{
+  display: block;
+}
+
+#periodo1{
+  width: 300px;
+  height: 29px;
+}
+
+  #periodoMeses{
+    margin-left: 10px;
+  }
+
   .form-group label {
     display: block;
     margin-bottom: 5px;
@@ -224,6 +239,15 @@ body {
   
   footer a:hover {
     color: #fff;
+  }
+  
+  #checkLimite {
+    width: 50px;
+    height: 22px;
+    min-width: 1.5%;
+    padding-bottom: 3px;
+    margin-bottom: 2px;
+    margin-top: 10px;
   }
   
   #checkLimite {
