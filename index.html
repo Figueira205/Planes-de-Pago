@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Planificador de Pagos</title>
+  <!-- Enlaza tu CSS si lo necesitas -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -21,16 +22,6 @@
   <div class="container">
     <h1>Planificador de Pagos Personalizados</h1>
     <p>Aquí puedes crear planes de pago personalizados, ver su historial y descargar la información.</p>
-
-    <div class="floating-panel">
-      <button class="close-btn">&times;</button>
-      <video src="C:\Users\jfigu\Videos\sk.mp4" controls alt="youtube"> </video>
-    </div>
-    
-    <div class="floating-panel1">
-      <button class="close-btn1">&times;</button>
-      <video src="C:\Users\jfigu\Videos\Download.mp4" controls alt="youtube"> </video>
-    </div>
 
     <div class="form-section">
       <h2>Crear Nuevo Plan</h2>
@@ -112,9 +103,13 @@
     </div>
   </div>
 
+  <!-- 1) Carga html2canvas (indispensable para doc.html()) -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <!-- 2) Carga la versión de jsPDF con el módulo html -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- 3) Finalmente, tu script principal (script.js) -->
   <script src="script.js"></script>
-
-
-
 </body>
 </html>
