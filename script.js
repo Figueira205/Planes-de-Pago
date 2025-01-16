@@ -338,15 +338,52 @@ document.addEventListener("DOMContentLoaded", () => {
     // AÑADIMOS UN <style> para forzar el color de texto a negro (o el que desees)
     const divTemporal = document.createElement("div");
     divTemporal.innerHTML = `
-      <style>
-        * {
-          color: #000 !important;
-        }
-      </style>
+    <style>
+      * {
+        color: #000 !important;
+        font-family: Arial, sans-serif;
+      }
+      .pdf-header {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .pdf-header h2 {
+        margin: 0; 
+        padding: 0;
+        font-size: 18pt;
+        white-space: nowrap;
+      }
+      .pdf-header p {
+        margin: 5px 0;
+        font-size: 10pt;
+      }
+      .table-container {
+        margin-top: 20px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 0 auto; /* Centra la tabla horizontalmente */
+        border: 1px solid #000;
+      }
+      th, td {
+        border: 1px solid #000;
+        padding: 6px;
+        text-align: center;
+        font-size: 9pt;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+    <div class="pdf-header">
       <h2>Plan de Pago - ${plan.cliente}</h2>
       <p>Fecha: ${plan.fecha}</p>
+    </div>
+    <div class="table-container">
       ${tablaHTML}
-    `;
+    </div>
+  `;
 
     // Renderizamos ese contenido en el PDF
     doc.html(divTemporal, {
