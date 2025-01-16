@@ -251,7 +251,8 @@ body {
   }
   
   #checkLimite {
-width: 1.5%;
-min-width: 1.5%;
-padding-bottom: 2px;
-margin-bottom: 5px;}
+    width: 30px;
+    min-width: 1.5%;
+    padding-bottom: 2px;
+    margin-right: 7px;
+    margin-bottom: 5px;}
