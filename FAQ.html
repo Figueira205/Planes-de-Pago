@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Preguntas Frecuentes</title>
+  <!-- Mantén la referencia a tu CSS principal -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="./recursos/logo creditaria.png" />
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <!-- Ajusta este enlace al archivo principal -->
+      <a href="index.html">Planificador de Pagos</a>
+    </div>
+    <div class="menu">
+      <!-- Ajusta el enlace a esta misma página o donde quieras -->
+      <a href="index.html" id="btnInicio">Inicio</a>
+      <a href="faq.html" id="btnFAQ">Preguntas Frecuentes</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Preguntas Frecuentes</h1>
+    <p>Aquí encontrarás las dudas más comunes sobre el uso de nuestro Planificador de Pagos Personalizados.</p>
+
+    <div class="faq-section">
+      <h2>1. ¿Cómo añado un nuevo acreedor?</h2>
+      <p>
+        En la página principal, encontrarás un apartado de <strong>Añadir Acreedores</strong>.  
+        Simplemente escribe el nombre del acreedor y la deuda correspondiente. A continuación, pulsa en el botón 
+        <em>“Añadir Acreedor”</em>. El acreedor aparecerá en la lista situada debajo, y podrás eliminarlo si lo deseas.
+      </p>
+
+      <h2>2. ¿Cómo añado un bien?</h2>
+      <p>
+        Debajo de la sección de acreedores se encuentra la sección <strong>Añadir Bienes</strong>.  
+        Coloca el nombre y el valor del bien y pulsa <em>“Añadir Bien”</em>. El valor total de los bienes se 
+        recalculará automáticamente y aparecerá al final de la lista de bienes.
+      </p>
+
+      <h2>3. ¿Cómo establezco el período de pago?</h2>
+      <p>
+        En la sección <strong>Periodo de Pago (Meses)</strong>, puedes elegir 36 meses, 60 meses o la opción “Otro” 
+        para especificar manualmente la cantidad de meses que requieras.
+      </p>
+
+      <h2>4. ¿Para qué sirve el límite de cuota mensual?</h2>
+      <p>
+        El <strong>Límite de cuota mensual</strong> te permite definir un monto máximo que quieres abonar mensualmente.  
+        Si la suma de las cuotas de todos los acreedores supera este valor, el sistema ajustará los importes y porcentajes proporcionalmente 
+        para que la cuota total no rebase el límite establecido.
+      </p>
+
+      <h2>5. ¿Cómo se calcula la tabla de pagos?</h2>
+      <p>
+        El sistema realiza los siguientes pasos:
+      </p>
+      <ul>
+        <li><strong>Suma de Deudas:</strong> Calcula la deuda total a partir de todos los acreedores añadidos.</li>
+        <li><strong>Valor de los Bienes:</strong> Suma el valor de cada bien para obtener el valor total.</li>
+        <li><strong>Porcentaje Total:</strong> Se estima con la fórmula <em>(Valor de los Bienes * 100) / Deuda Total</em>.</li>
+        <li><strong>Reparto de Importe y Cuotas:</strong> Cada acreedor obtiene un porcentaje e importe según la proporción 
+          de su deuda y el porcentaje total calculado. Luego, las cuotas mensuales se dividen por el número de meses.</li>
+        <li><strong>Límite de Cuota Mensual (opcional):</strong> Si activaste un límite y las cuotas superan ese límite, se reduce de manera proporcional 
+          el importe a abonar y, por ende, el porcentaje final.</li>
+      </ul>
+
+      <h2>6. ¿Cómo veo el historial de planes creados?</h2>
+      <p>
+        En la parte inferior de la página principal verás la sección <strong>“Historial de Planes”</strong>.  
+        Ahí encontrarás todos los planes que se han generado, con el nombre del cliente y la fecha de creación.  
+        Puedes ver el detalle de cada plan pulsando el botón <em>“Ver”</em> y eliminarlo con el botón <em>“Eliminar”</em>.
+      </p>
+
+      <h2>7. ¿Puedo descargar el plan de pagos en PDF?</h2>
+      <p>
+        Sí, contamos con la opción de <strong>“Descargar”</strong>. Al pulsar dicho botón, 
+        podrás exportar la tabla generada aunque la implementación concreta en PDF.
+      </p>
+
+      <h2>8. ¿Cómo empiezo un nuevo plan?</h2>
+      <p>
+        Para iniciar un nuevo plan, puedes pulsar el botón <strong>“Crear Nuevo Plan”</strong> al final de la sección de historial, 
+        o simplemente limpiar los campos actuales y comenzar a añadir acreedores y bienes de nuevo.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    <p>©2025 Creditaria Financial Group. Todos los derechos reservados.</p>
+    <p><a target="_blank" href="https://www.creditaria.com/politica-de-cookies">Politica de Cookies</a> | <a target="_blank" href="https://www.creditaria.com/politica-de-privacidad">Política de Privacidad</a></p>
+  </footer>
+</body>
+</html>
