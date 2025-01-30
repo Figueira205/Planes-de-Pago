@@ -312,7 +312,7 @@ body {
 
 #checkLimite:checked + #limiteMonto {
   display: inline-block;
-  width: 350px;
+  width: 354px;
 }
 
 
