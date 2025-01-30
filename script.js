@@ -1,198 +1,634 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preguntas Frecuentes - Planificador de Pagos</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="./recursos/logo creditaria.png">
-</head>
-<body>
-  <nav>
-    <div class="logo">
-      <a href="index.html">Planificador de Pagos</a>
-    </div>
-    <div class="menu">
-      <a href="index.html" id="btnInicio">Inicio</a>
-      <a href="faq.html" id="btnFAQ">Preguntas Frecuentes</a>
-    </div>
-  </nav>
+document.addEventListener("DOMContentLoaded", () => {
+  // Función de formateo numérico
+  function formatearNumero(num) {
+    return new Intl.NumberFormat('es-ES', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(num);
+  }
 
-  <div class="main-container">
-    <div class="container">
-      <h1>Guía Completa del Planificador de Pagos</h1>
-      <p class="faq-intro">Esta herramienta ayuda a personas y negocios a organizar sus deudas considerando sus bienes y capacidad de pago. Crea planes personalizados que distribuyen pagos entre acreedores de forma equitativa y sostenible.</p>
-      
-      <div class="faq-section">
-        <!-- Sección: Conceptos Básicos -->
-        <div class="faq-category">
-          <h2>📚 Conceptos Fundamentales</h2>
-          
-          <div class="faq-item">
-            <div class="faq-question">
-              <h3>¿Qué es un plan de pagos personalizado?</h3>
-              <span class="toggle-icon">▼</span>
-            </div>
-            <div class="faq-answer">
-              <p>Es una estrategia financiera que:<br>
-              1. Considera <strong>tus bienes disponibles</strong><br>
-              2. Distribuye pagos entre <strong>todos tus acreedores</strong><br>
-              3. Respeta tu <strong>capacidad de pago mensual</strong><br>
-              4. Puede incluir <strong>reducciones negociadas (quitas)</strong></p>
-            </div>
-          </div>
+  // NUEVO: Ajustamos esta función para que, si parseFloat da NaN,
+  // no borre de inmediato el valor y, si prefieres, puedas notificar al usuario.
+  function formatearInputNumero(input) {
+    const valorOriginal = input.value;
+    const valor = valorOriginal
+      .replace(/\./g, '')      // Elimina puntos
+      .replace(',', '.');      // Reemplaza comas por puntos (para parseFloat)
 
-          <div class="faq-item">
-            <div class="faq-question">
-              <h3>¿Quién debería usar esta herramienta?</h3>
-              <span class="toggle-icon">▼</span>
-            </div>
-            <div class="faq-answer">
-              <p>Es ideal si:<br>
-              ✔ Tienes <strong>múltiples deudas</strong> con diferentes entidades<br>
-              ✔ Necesitas <strong>organizar pagos a largo plazo</strong><br>
-              ✔ Quieres <strong>negociar con acreedores</strong> usando datos concretos<br>
-              ✔ Buscas <strong>evitar la morosidad</strong> mediante planificación</p>
-            </div>
-          </div>
-        </div>
+    const numero = parseFloat(valor);
+} 
 
-        <!-- Sección: Funcionalidades Clave -->
-        <div class="faq-category">
-          <h2>⚙️ Funcionalidades Detalladas</h2>
+  // Elementos del DOM
+  const nombreCliente = document.getElementById("nombreCliente");
+  const periodoMeses = document.getElementById("periodoMeses");
+  const periodoMesesOtro = document.getElementById("periodoMesesOtro");
+  const checkLimite = document.getElementById("checkLimite");
+  const limiteMonto = document.getElementById("limiteMonto");
+  const btnAddAcreedor = document.getElementById("btnAddAcreedor");
+  const listaAcreedores = document.getElementById("listaAcreedores");
+  const btnAddBien = document.getElementById("btnAddBien");
+  const listaBienes = document.getElementById("listaBienes");
+  const valorTotalBienesEl = document.getElementById("valorTotalBienes");
+  const btnCrearPlan = document.getElementById("crearPlan");
+  const btnLimpiarCampos = document.getElementById("limpiarCampos");
+  const tablaResultados = document.getElementById("tablaResultados");
+  const historialPlanes = document.getElementById("historialPlanes");
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalClose = document.getElementById("modalClose");
+  const modalTableContainer = document.getElementById("modalTableContainer");
+  const checkHipoteca = document.getElementById("checkHipoteca");
+  const hipotecaMonto = document.getElementById("hipotecaMonto");
 
-          <div class="faq-item">
-            <div class="faq-question">
-              <h3>¿Cómo funcionan los acreedores y deudas?</h3>
-              <span class="toggle-icon">▼</span>
-            </div>
-            <div class="faq-answer">
-              <p><strong>Paso a paso:</strong><br>
-              1. <em>Añade acreedores:</em> Banco, proveedores, préstamos personales<br>
-              2. <em>Especifica deudas:</em> Cantidad exacta que debes a cada uno<br>
-              3. <em>Sistema calcula:</em> 
-                <span class="highlight">% que recibe cada uno</span> basado en tus bienes<br>
-              4. <em>Resultado:</em> Plan de pagos proporcional y justo</p>
-              <div class="example-box">
-                💡 Ejemplo: Si debes €10k a Banco A y €5k a Proveedor B, 
-                y tienes €9k en bienes, recibirán 60% y 40% respectivamente.
-              </div>
-            </div>
-          </div>
+  // NUEVO: Campo para la quita
+  const quitaPorcentaje = document.getElementById("quitaPorcentaje");
 
-          <div class="faq-item">
-            <div class="faq-question">
-              <h3>¿Qué son las quitas y cómo aplicarlas?</h3>
-              <span class="toggle-icon">▼</span>
-            </div>
-            <div class="fafaq-answer">
-              <p><strong>Quita = Reducción negociada de deuda</strong><br>
-              • Usa el <span class="highlight">deslizador</span> para establecer % de reducción<br>
-              • Se aplica <em>por igual</em> a todos los acreedores<br>
-              • Útil para <strong>simular acuerdos de pago</strong></p>
-              <div class="warning-box">
-                ⚠ Importante: La quita reduce el total adeudado, 
-                pero también lo que puedes pagar con tus bienes.
-              </div>
-            </div>
-          </div>
+  // Variables de estado
+  let acreedores = [];
+  let bienes = [];
+  let historial = [];
 
-          <div class="faq-item">
-            <div class="faq-question">
-              <h3>Límites de pago e hipotecas</h3>
-              <span class="toggle-icon">▼</span>
-            </div>
-            <div class="faq-answer">
-              <p><strong>Funcionamiento combinado:</strong><br>
-              1. <em>Hipoteca:</em> Gasto fijo prioritario cada mes<br>
-              2. <em>Límite:</em> Máximo que puedes pagar mensualmente<br>
-              3. <em>Sistema ajusta:</em> Si hipoteca + pagos superan el límite:<br>
-                &nbsp;&nbsp;• Reduce proporcionalmente pagos a acreedores<br>
-                &nbsp;&nbsp;• Mantiene prioridad en hipoteca</p>
-              <div class="example-box">
-                💡 Ejemplo: Límite €1,000 + Hipoteca €400 = 
-                €600 disponibles para acreedores
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sección: Proceso Completo -->
-        <div class="faq-category">
-          <h2>📈 Flujo de Trabajo Paso a Paso</h2>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <h3>¿Cómo crear un plan efectivo?</h3>
-              <span class="toggle-icon">▼</span>
-            </div>
-            <div class="faq-answer">
-              <ol class="steps-list">
-                <li><strong>Datos Básicos:</strong> Nombre cliente y periodo (12-120 meses)</li>
-                <li><strong>Acreedores:</strong> Añade todas tus deudas relevantes</li>
-                <li><strong>Bienes:</strong> Registra propiedades, ahorros, inversiones</li>
-                <li><strong>Ajustes:</strong>
-                  <ul>
-                    <li>¿Tienes hipoteca? Activa y completa monto</li>
-                    <li>¿Necesitas límite mensual? Activa y establece cantidad</li>
-                    <li>¿Negociando quitas? Usa el deslizador (% deseado)</li>
-                  </ul>
-                </li>
-                <li><strong>Generar Plan:</strong> Revisa tabla interactiva y:
-                  <ul>
-                    <li>Guarda en Historial para comparar versiones</li>
-                    <li>Exporta a PDF para presentar a acreedores</li>
-                  </ul>
-                </li>
-              </ol>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sección: Seguridad y Datos -->
-        <div class="faq-category">
-          <h2>🔒 Privacidad y Gestión de Datos</h2>
-
-          <div class="faq-item">
-            <div class="faq-question">
-              <h3>¿Dónde se almacena mi información?</h3>
-              <span class="toggle-icon">▼</span>
-            </div>
-            <div class="faq-answer">
-              <p><strong>Almacenamiento local:</strong><br>
-              • Tus datos <em>nunca</em> abandonan tu dispositivo<br>
-              • Historial se guarda en tu navegador<br>
-              • Puedes eliminar todo con el botón "Limpiar Campos"</p>
-              <div class="warning-box">
-                ⚠ Precaución: Al cerrar el navegador en modo incógnito 
-                o limpiar caché, perderás los datos guardados.
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>©2025 Creditaria Financial Group. Todos los derechos reservados.</p>
-    <p><a target="_blank" href="https://www.creditaria.com/politica-de-cookies">Política de Cookies</a> | 
-    <a target="_blank" href="https://www.creditaria.com/politica-de-privacidad">Política de Privacidad</a></p>
-  </footer>
-
-  <script>
-    // Mismo script de toggle anterior
-    document.querySelectorAll('.faq-question').forEach(item => {
-      item.addEventListener('click', () => {
-        const answer = item.nextElementSibling;
-        const icon = item.querySelector('.toggle-icon');
-        answer.classList.toggle('active');
-        icon.style.transform = answer.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+  // Manejo de Enter
+  function manejarEnterEnInputs(selector, botonId = null) {
+    const inputs = Array.from(document.querySelectorAll(selector));
+    inputs.forEach(input => {
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          const currentIndex = inputs.indexOf(event.target);
+          if (currentIndex >= 0 && currentIndex < inputs.length - 1) {
+            inputs[currentIndex + 1].focus();
+          } else if (botonId && currentIndex === inputs.length - 1) {
+            document.getElementById(botonId).click();
+          }
+        }
       });
     });
-  </script>
-</body>
-</html>
+  }
+
+  // NUEVO: Ajustamos el listener para que NO sobreescriba siempre el valor
+  checkHipoteca.addEventListener("change", () => {
+    hipotecaMonto.disabled = !checkHipoteca.checked;
+    // NUEVO: Solo si se activa y no tiene valor, fijamos "0,00"
+    if (checkHipoteca.checked && !hipotecaMonto.value) {
+      hipotecaMonto.value = "";
+      formatearInputNumero(hipotecaMonto);
+    }
+  });
+
+  periodoMeses.addEventListener("change", () => {
+    periodoMesesOtro.style.display = periodoMeses.value === "otro" ? "block" : "none";
+  });
+
+  // NUEVO: Igual para el checkLimite
+  checkLimite.addEventListener("change", () => {
+    limiteMonto.disabled = !checkLimite.checked;
+    // NUEVO: Solo si se activa y no tiene valor, fijamos "0,00"
+    if (checkLimite.checked && !limiteMonto.value) {
+      limiteMonto.value = "";
+      formatearInputNumero(limiteMonto);
+    }
+  });
+
+  // Formateo de inputs numéricos (blur)
+  // Asegúrate de tener estos elementos en tu HTML. 
+  // Ejemplo: class="acreedor-deuda", class="bien-valor", etc.
+  document.querySelector('.acreedor-deuda').addEventListener('blur', function() {
+    formatearInputNumero(this);
+  });
+
+  document.querySelector('.bien-valor').addEventListener('blur', function() {
+    formatearInputNumero(this);
+  });
+
+  hipotecaMonto.addEventListener('blur', function() {
+    formatearInputNumero(this);
+  });
+
+  limiteMonto.addEventListener('blur', function() {
+    formatearInputNumero(this);
+  });
+
+  // Acreedores
+  btnAddAcreedor.addEventListener("click", () => {
+    const nombreInput = document.querySelector(".acreedor-nombre");
+    const deudaInput = document.querySelector(".acreedor-deuda");
+    
+    const nombre = nombreInput.value.trim();
+    // Reemplazamos puntos y comas para parsear
+    const deuda = parseFloat(deudaInput.value.replace(',', '.'));
+
+    if (nombre && !isNaN(deuda) && deuda > 0) {
+      acreedores.push({ nombre, deuda });
+      actualizarListaAcreedores();
+      nombreInput.value = "";
+      deudaInput.value = "";
+    } else {
+      alert("Por favor ingrese nombre y deuda válidos");
+    }
+  });
+
+  function actualizarListaAcreedores() {
+    listaAcreedores.innerHTML = "";
+    acreedores.forEach((acreedor, index) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        ${acreedor.nombre} - ${formatearNumero(acreedor.deuda)}€
+        <button class="eliminar" data-index="${index}">×</button>
+      `;
+      li.querySelector("button").addEventListener("click", () => {
+        acreedores.splice(index, 1);
+        actualizarListaAcreedores();
+      });
+      listaAcreedores.appendChild(li);
+    });
+  }
+
+  // Bienes
+  btnAddBien.addEventListener("click", () => {
+    const nombreInput = document.querySelector(".bien-nombre");
+    const valorInput = document.querySelector(".bien-valor");
+    
+    const nombre = nombreInput.value.trim();
+    const valor = parseFloat(valorInput.value.replace(/\./g, '').replace(',', '.'));
+
+    if (nombre && !isNaN(valor) && valor > 0) {
+      bienes.push({ nombre, valor });
+      actualizarListaBienes();
+      nombreInput.value = "";
+      valorInput.value = "";
+    } else {
+      alert("Por favor ingrese nombre y valor válidos");
+    }
+  });
+
+  function actualizarListaBienes() {
+    listaBienes.innerHTML = "";
+    let total = 0;
+    bienes.forEach((bien, index) => {
+      total += bien.valor;
+      const li = document.createElement("li");
+      li.innerHTML = `
+        ${bien.nombre} - ${formatearNumero(bien.valor)}€
+        <button class="eliminar" data-index="${index}">×</button>
+      `;
+      li.querySelector("button").addEventListener("click", () => {
+        bienes.splice(index, 1);
+        actualizarListaBienes();
+      });
+      listaBienes.appendChild(li);
+    });
+    valorTotalBienesEl.textContent = formatearNumero(total);
+  }
+
+  // Cálculo del Plan de Pagos
+  btnCrearPlan.addEventListener("click", () => {
+    // Validaciones básicas
+    const cliente = nombreCliente.value.trim();
+    if (!cliente || !acreedores.length || !bienes.length) {
+      alert("Complete todos los campos obligatorios");
+      return;
+    }
+
+    // Cálculo de meses
+    const meses = periodoMeses.value === "otro" ? 
+      parseInt(periodoMesesOtro.value) || 60 : 
+      parseInt(periodoMeses.value);
+
+    // Cálculos iniciales
+    const deudaSinQuita = acreedores.reduce((sum, a) => sum + a.deuda, 0);
+    const quita = parseFloat(quitaPorcentaje.value) || 0;
+
+    // Aplicamos la quita al total de la deuda
+    const deudaTotal = deudaSinQuita * (1 - quita / 100);
+
+    const valorBienesTotal = bienes.reduce((sum, b) => sum + b.valor, 0);
+
+    // Ajuste: Tomamos el menor entre el valor de los bienes y la deuda con quita
+    const valorBienesAjustado = Math.min(valorBienesTotal, deudaTotal);
+
+    // Se recalcula el porcentajeTotal con la deuda ya rebajada
+    const porcentajeTotal = (valorBienesAjustado / deudaTotal) * 100;
+
+    // Ajustamos la deuda de cada acreedor según la quita,
+    // luego calculamos la parte que le corresponde usando el mismo porcentaje
+    let acreedoresCalculados = acreedores.map(a => {
+      const deudaConQuitaCred = a.deuda * (1 - quita / 100);
+      const importe = deudaConQuitaCred * (porcentajeTotal / 100);
+      
+      return {
+        nombre: a.nombre,
+        // Mostramos en "Deuda" la parte con quita (para que se refleje esa reducción)
+        deuda: deudaConQuitaCred,
+        // Porcentaje de la deuda con quita frente al total con quita
+        porcentaje: (deudaConQuitaCred / deudaTotal) * porcentajeTotal,
+        importe: importe,
+        cuotaMensual: importe / meses,
+        meses: meses
+      };
+    });
+
+    let sumaCuotas = acreedoresCalculados.reduce((sum, a) => sum + a.cuotaMensual, 0);
+    let sumaImportes = acreedoresCalculados.reduce((sum, a) => sum + a.importe, 0);
+
+    // Manejo de Hipoteca y Límite
+    let montoHipoteca = 0;
+    if (checkHipoteca.checked) {
+      montoHipoteca = parseFloat(
+        hipotecaMonto.value.replace(/\./g, '').replace(',', '.')
+      ) || 0;
+    }
+
+    if (checkLimite.checked) {
+      const limite = parseFloat(limiteMonto.value) || 0;
+      
+      // Validaciones de límite
+      if (montoHipoteca > limite) {
+        alert("El pago de hipoteca supera el límite mensual");
+        return;
+      }
+      
+      const limiteDisponible = limite - montoHipoteca;
+      
+      if (limiteDisponible <= 0) {
+        alert("El límite debe ser mayor al pago de hipoteca");
+        return;
+      }
+
+      // Ajustar cuotas si superan el límite
+      if (sumaCuotas > limiteDisponible) {
+        const ratio = limiteDisponible / sumaCuotas;
+        acreedoresCalculados = acreedoresCalculados.map(a => ({
+          ...a,
+          importe: a.importe * ratio,
+          cuotaMensual: a.cuotaMensual * ratio
+        }));
+
+        // Actualizar totales
+        sumaCuotas = acreedoresCalculados.reduce((sum, a) => sum + a.cuotaMensual, 0);
+        sumaImportes = acreedoresCalculados.reduce((sum, a) => sum + a.importe, 0);
+      }
+    }
+
+    // Formatear números para presentar en la tabla
+    acreedoresCalculados = acreedoresCalculados.map(a => ({
+      ...a,
+      deuda: formatearNumero(a.deuda),
+      porcentaje: formatearNumero(a.porcentaje),
+      importe: formatearNumero(a.importe),
+      cuotaMensual: formatearNumero(a.cuotaMensual)
+    }));
+
+    // Construimos el array de resultados para mostrar
+    const resultados = [];
+
+    // Si hubo quita > 0, añadimos un par de filas informativas
+    if (quita > 0) {
+      resultados.push({
+        nombre: "Deuda Original",
+        deuda: formatearNumero(deudaSinQuita),
+        porcentaje: "-",
+        importe: "-",
+        meses: "-",
+        cuotaMensual: "-"
+      });
+      resultados.push({
+        nombre: "Quita",
+        deuda: quita + " %",
+        porcentaje: "-",
+        importe: "-" + formatearNumero(deudaSinQuita - deudaTotal),
+        meses: "-",
+        cuotaMensual: "-"
+      });
+    }
+
+    // Añadimos cada acreedor
+    resultados.push(...acreedoresCalculados);
+
+    // Añadir Hipoteca (si procede)
+    let totalMensual = sumaCuotas;
+    if (checkHipoteca.checked) {
+      resultados.push({
+        nombre: "Pago de Hipoteca",
+        deuda: "-",
+        porcentaje: "-",
+        importe: "-",
+        meses: "-",
+        cuotaMensual: formatearNumero(montoHipoteca)
+      });
+      totalMensual += montoHipoteca;
+    }
+
+    // Finalmente añadimos el total general
+    resultados.push({
+      nombre: "Total",
+      deuda: formatearNumero(deudaTotal),
+      porcentaje: formatearNumero(porcentajeTotal),
+      importe: formatearNumero(sumaImportes),
+      meses: meses,
+      cuotaMensual: formatearNumero(totalMensual)
+    });
+
+    mostrarTabla(resultados);
+    guardarEnHistorial(cliente, resultados);
+  });
+
+  // Mostrar tabla de resultados
+  function mostrarTabla(data) {
+    let html = `
+      <table>
+        <thead>
+          <tr>
+            <th>Identidad Acreedora</th>
+            <th>Deuda</th>
+            <th>Porcentaje</th>
+            <th>Importe a Abonar</th>
+            <th>Meses</th>
+            <th>Cuota Mensual</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+  
+    data.forEach(row => {
+      // Usamos nullish coalescing (??) para que, si es null/undefined, sea ""
+      let deuda = row.deuda ?? "";
+      let porcentaje = row.porcentaje ?? "";
+      let importe = row.importe ?? "";
+      let cuota = row.cuotaMensual ?? "";
+  
+      // Solo si el campo no está vacío, le añadimos el símbolo
+      if (deuda.trim() !== "-") {
+        deuda += " €";
+      }
+      if (porcentaje.trim() !== "-") {
+        porcentaje += " %";
+      }
+      if (importe.trim() !== "-") {
+        importe += " €";
+      }
+      if (cuota.trim() !== "-") {
+        cuota += " €";
+      }
+  
+      html += `
+        <tr>
+          <td>${row.nombre}</td>
+          <td>${deuda}</td>
+          <td>${porcentaje}</td>
+          <td>${importe}</td>
+          <td>${row.meses}</td>
+          <td>${cuota}</td>
+        </tr>
+      `;
+    });
+  
+    html += `</tbody></table>`;
+    document.getElementById("tablaResultados").innerHTML = html;
+  }
+  
+
+  // Historial 
+  function guardarEnHistorial(cliente, data) {
+    const fecha = new Date().toLocaleString();
+    const plan = {
+      cliente,
+      fecha,
+      data
+    };
+    historial.push(plan);
+    actualizarHistorial();
+  }
+
+  function actualizarHistorial() {
+    historialPlanes.innerHTML = "";
+    historial.forEach((plan, index) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span>${plan.cliente} | ${plan.fecha}</span>
+        <div class="actions">
+          <button class="btnVerPlan">Ver</button>
+          <button class="btnEliminarPlan">Eliminar</button>
+          <button class="btnDescargarPlan">Descargar</button>
+        </div>
+      `;
+
+      li.querySelector(".btnEliminarPlan").addEventListener("click", () => {
+        historial.splice(index, 1);
+        actualizarHistorial();
+      });
+
+      li.querySelector(".btnDescargarPlan").addEventListener("click", () => {
+        descargarPlanPDF(plan);
+      });
+
+      li.querySelector(".btnVerPlan").addEventListener("click", () => {
+        mostrarModalConPlan(plan);
+      });
+
+      historialPlanes.appendChild(li);
+    });
+  }
+
+  // Mostrar modal con plan
+  function mostrarModalConPlan(plan) {
+    modalTableContainer.innerHTML = generarHTMLTabla(plan.data);
+    modalOverlay.style.display = "flex";
+  }
+
+  // Generar HTML para tablas
+  function generarHTMLTabla(data) {
+    return `
+      <table>
+        <thead>
+          <tr>
+            <th>Identidad Acreedora</th>
+            <th>Deuda</th>
+            <th>Porcentaje</th>
+            <th>Importe</th>
+            <th>Meses</th>
+            <th>Cuota Mensual</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              <td>${row.nombre}</td>
+              <td>${row.deuda} €</td>
+              <td>${row.porcentaje} %</td>
+              <td>${row.importe} €</td>
+              <td>${row.meses}</td>
+              <td>${row.cuotaMensual} €</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+  }
+
+  // Generar PDF
+  function generarHTMLTabla(data) {
+    // -- Aquí insertas la misma lógica condicional que usaste en "mostrarTabla" --
+    return `
+      <table>
+        <thead>
+          <tr>
+            <th>Identidad Acreedora</th>
+            <th>Deuda</th>
+            <th>Porcentaje</th>
+            <th>Importe</th>
+            <th>Meses</th>
+            <th>Cuota Mensual</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${
+            data.map(row => {
+              // Usamos nullish coalescing (??) para evitar null/undefined
+              let deuda = row.deuda ?? "";
+              let porcentaje = row.porcentaje ?? "";
+              let importe = row.importe ?? "";
+              let cuota = row.cuotaMensual ?? "";
+  
+              // Si el campo NO está vacío ("") ni es "-", le agregamos su símbolo
+              if (deuda.trim() !== "" && deuda.trim() !== "-") {
+                deuda += " €";
+              }
+              if (porcentaje.trim() !== "" && porcentaje.trim() !== "-") {
+                porcentaje += " %";
+              }
+              if (importe.trim() !== "" && importe.trim() !== "-") {
+                importe += " €";
+              }
+              if (cuota.trim() !== "" && cuota.trim() !== "-") {
+                cuota += " €";
+              }
+  
+              // Retornamos la fila con los valores formateados
+              return `
+                <tr>
+                  <td>${row.nombre}</td>
+                  <td>${deuda}</td>
+                  <td>${porcentaje}</td>
+                  <td>${importe}</td>
+                  <td>${row.meses}</td>
+                  <td>${cuota}</td>
+                </tr>
+              `;
+            }).join("")
+          }
+        </tbody>
+      </table>
+    `;
+  }
+  
+  // Generar PDF
+  function descargarPlanPDF(plan) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+      orientation: 'p',
+      unit: 'pt',
+      format: 'letter'
+    });
+  
+    // Al llamar generarHTMLTabla(plan.data) aquí,
+    // ya usará la lógica condicional para ocultar los símbolos si está vacío
+    let tablaHTML = generarHTMLTabla(plan.data);
+  
+    const divTemporal = document.createElement("div");
+    divTemporal.innerHTML = `
+      <style>
+        * {
+          color: #000 !important;
+          font-family: Arial, sans-serif;
+        }
+        .pdf-header {
+          padding-left: 10px;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+        .pdf-header h2 {
+          margin: 0; 
+          font-size: 18pt;
+          white-space: nowrap;
+        }
+        .pdf-header p {
+          margin: 0px 0;
+          font-size: 10pt;
+        }
+        .table-container {
+          margin-top: 10px;
+          padding-left: 10px;
+          padding-right: 7px;
+        }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 0;
+          margin-left: 3px;
+          border: 1px solid #000;
+        }
+        th, td {
+          border: 1px solid #000;
+          padding: 8px;
+          text-align: center;
+          font-size: 10pt;
+          white-space: nowrap; 
+        }
+        th {
+          background-color: #ffffff;
+        }
+      </style>
+      <div class="pdf-header">
+        <h2>Plan de Pago - ${plan.cliente}</h2>
+        <p>Fecha: ${plan.fecha}</p>
+      </div>
+      <div class="table-container">
+        ${tablaHTML}
+      </div>
+    `;
+  
+    doc.html(divTemporal, {
+      callback: function (doc) {
+        doc.save(`Plan_${plan.cliente.replace(/\s+/g, '_')}.pdf`);
+      },
+      x: 40,
+      y: 20,
+      width: 520,
+      windowWidth: 800
+    });
+  }
+
+  // Limpiar formulario
+  function limpiarCampos() {
+    nombreCliente.value = "";
+    periodoMeses.value = "60";
+    periodoMesesOtro.value = "";
+    checkLimite.checked = false;
+    limiteMonto.value = "";
+    checkHipoteca.checked = false;
+    hipotecaMonto.value = "";
+    quitaPorcentaje.value = 0;
+    document.getElementById("quitaValue").textContent = "0";
+
+    acreedores = [];
+    bienes = [];
+    actualizarListaAcreedores();
+    actualizarListaBienes();
+    tablaResultados.innerHTML = "";
+  }
+
+  // Event Listeners finales
+  btnLimpiarCampos.addEventListener("click", limpiarCampos);
+  modalClose.addEventListener("click", () => {
+    modalOverlay.style.display = "none";
+    modalTableContainer.innerHTML = "";
+  });
+
+  manejarEnterEnInputs(".form-group.acreedor-group input", "btnAddAcreedor");
+  manejarEnterEnInputs(".form-group.bien-group input", "btnAddBien");
+  manejarEnterEnInputs("#nombreCliente");
+});
+
+
 
 
