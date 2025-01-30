@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Planificador de Pagos</title>
-  <!-- Enlaza tu CSS si lo necesitas -->
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="./recursos/logo creditaria.png" />
 </head>
@@ -16,10 +15,11 @@
     </div>
     <div class="menu">
       <a href="index.html" id="btnInicio">Inicio</a>
-      <a href="FAQ.html" id="btnFAQ">Preguntas Frecuentes</a>
+      <a href="faq.html" id="btnFAQ">Preguntas Frecuentes</a>
     </div>
   </nav>
 
+<div class="main-container">
   <div class="container">
     <h1>Planificador de Pagos Personalizados</h1>
     <p>Aquí puedes crear planes de pago personalizados, ver su historial y descargar la información.</p>
@@ -27,7 +27,7 @@
     <div class="form-section">
       <h2>Crear Nuevo Plan</h2>
       <div id="nombrec" class="form-group">
-        <label >Nombre del Cliente:</label>
+        <label>Nombre del Cliente:</label>
         <input type="text" id="nombreCliente" placeholder="Ej: Pedro Martín" />
       </div>
 
@@ -42,6 +42,13 @@
         <ul id="listaAcreedores"></ul>
       </div>
 
+      <!-- Hipoteca -->
+      <div id="addh" class="form-group acreedor-especial-group">
+        <label id="add">Añadir Pago Mensual de Hipoteca:</label>
+        <input type="checkbox" id="checkHipoteca" />
+        <input type="text" step="0.01" id="hipotecaMonto" placeholder="Monto Hipoteca (€)" disabled />
+      </div>
+
       <!-- Sección Bienes -->
       <div class="bienes-section">
         <h3>Añadir Bienes</h3>
@@ -54,49 +61,84 @@
         <p><strong>Valor total de los Bienes:</strong> <span id="valorTotalBienes">0.00</span></p>
       </div>
 
-      <div class="form-group">
+      <!-- Periodo de pago -->
+      <div class="form-group periodo-pago">
         <label id="periodo1">Periodo de Pago (Meses):</label>
         <select id="periodoMeses">
-          <option value="36">36</option>
-          <option value="60" selected>60</option>
+          <option value="12">1 Año (12 meses)</option>
+          <option value="24">2 Años (24 meses)</option>
+          <option value="36">3 Años (36 meses)</option>
+          <option value="48">4 Años (48 meses)</option>
+          <option value="60" selected>5 Años (60 meses)</option>
+          <option value="72">6 Años (72 meses)</option>
+          <option value="84">7 Años (84 meses)</option>
+          <option value="96">8 Años (96 meses)</option>
+          <option value="108">9 Años (108 meses)</option>
+          <option value="120">10 Años (120 meses)</option>
           <option value="otro">Otro</option>
         </select>
         <input type="number" id="periodoMesesOtro" placeholder="Especificar meses" style="display:none;" />
       </div>
 
-      <div class="form-group limite-group">
-        <label>Establecer Límite:</label>
+    <div class="limite-quita">
+      <!-- Límite de pago -->
+      <div id="cajalimite" class="form-group limite-group">
+        <label id="limit">Establecer Límite:</label>
         <input type="checkbox" id="checkLimite"/>
         <input type="number" step="0.01" placeholder="Límite en €" id="limiteMonto" disabled />
       </div>
 
+      <!-- NUEVO: Campo de Quita -->
+      <div id="quita-container" class="form-group quita-group">
+        <label id="quita-text" for="quitaPorcentaje">Porcenta de Quita:</label>
+        <!-- Usamos un input tipo range del 0 al 100. 
+            El output muestra el valor actual de la quita en % -->
+        <input 
+          type="range" 
+          id="quitaPorcentaje" 
+          min="0" 
+          max="100" 
+          step="1" 
+          value="0" 
+          oninput="quitaValue.textContent = quitaPorcentaje.value"
+        />
+        <span id="quitaValue">0</span>%
+      </div>
+    </div>
+      <!-- Botones principales -->
       <div class="buttons">
         <button id="crearPlan">Crear</button>
         <button id="limpiarCampos">Limpiar</button>
       </div>
 
+      <!-- Resultados -->
       <div class="tabla-resultados" id="tablaResultados">
         <!-- Tabla generada dinámicamente por JS -->
       </div>
     </div>
 
-    <div class="history-section">
-      <h2>Historial de Planes</h2>
+    <!-- Historial -->
+    <div class="history-section container">
+      <h2 id="h">Historial de Planes</h2>
+      <tr>
+        <td colspan="2"><hr style="border: 1px solid rgb(46, 59, 68); width: 100%;" /></td>
+      </tr>
       <ul class="history-list" id="historialPlanes">
         <!-- Historial dinámico -->
       </ul>
       <div class="buttons">
-        <button id="btnNuevoPlan">Crear Nuevo Plan</button>
+        <!-- <button id="btnNuevoPlan">Crear Nuevo Plan</button> -->
       </div>
     </div>
   </div>
+</div>
 
   <footer>
     <p>©2025 Creditaria Financial Group. Todos los derechos reservados.</p>
-    <p><a target="_blank" href="https://www.creditaria.com/politica-de-cookies">Politica de Cookies</a> | <a target="_blank" href="https://www.creditaria.com/politica-de-privacidad">Política de Privacidad</a></p>
+    <p><a target="_blank" href="https://www.creditaria.com/politica-de-cookies">Política de Cookies</a> | <a target="_blank" href="https://www.creditaria.com/politica-de-privacidad">Política de Privacidad</a></p>
   </footer>
 
-  <!-- Modal para ver planes anteriores -->
+  <!-- Modal para ver planes -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-content">
       <button class="modal-close" id="modalClose">X</button>
@@ -104,13 +146,9 @@
     </div>
   </div>
 
-  <!-- 1) Carga html2canvas (indispensable para doc.html()) -->
+  <!-- Dependencias -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
-  <!-- 2) Carga la versión de jsPDF con el módulo html -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-  <!-- 3) Finalmente, tu script principal (script.js) -->
   <script src="script.js"></script>
 </body>
 </html>
