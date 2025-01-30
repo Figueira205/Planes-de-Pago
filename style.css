@@ -14,6 +14,9 @@ body {
     align-items: center;
   }
   
+.menu{
+  display: flex;
+}  
   nav a {
     color: #ddd;
     text-decoration: none;
@@ -27,7 +30,7 @@ body {
   
   /* Contenedor principal */
   .container {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 20px auto;
     padding: 20px;
     background: #39444c;
@@ -38,8 +41,23 @@ body {
     color: #fff;
   }
   
+.logo{
+  text-align: center;
+}
+
   .form-section, .history-section {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+  }
+
+  .history-section {
+    margin: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
   }
   
   /* Inputs y botones */
@@ -53,17 +71,11 @@ body {
   display: block;
 }
 
-#checkLimite {
-    width: 50px;
-    height: 22px;
-    padding-bottom: 3px;
-    margin-bottom: 2px;
-    margin-top: 10px;
-  }
-
 #periodo1{
-  width: 300px;
+  width: 355px;
   height: 29px;
+  display: flex;
+  align-items: center;
 }
 
   #periodoMeses{
@@ -74,6 +86,17 @@ body {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+  }
+
+  .form-group2 label {
+    display: inline-flex;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  label #limit{
+      margin-bottom: 0px;
+      margin-right: 0px;
   }
   
   .form-group input,
@@ -87,8 +110,24 @@ body {
     width: 100%;
     box-sizing: border-box;
   }
+
+  #quita-container{
+    width: 68%;
+  }
+
+  #quita-text{
+    display: flex;
+    align-items: center;
+    width: 275px;
+    height: 30px;
+  }
   
+  #quitaPorcentaje{
+    max-width: 600px;
+  }
+
   .form-group button {
+    min-width: 111px;
     width: auto;
     cursor: pointer;
   }
@@ -136,6 +175,8 @@ body {
   #listaBienes li button {
     background: #515a63;
     border: none;
+    color: white;
+    width: 26px;
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
@@ -143,7 +184,7 @@ body {
   
   #listaAcreedores li button:hover,
   #listaBienes li button:hover {
-    background: #6b747c;
+    background: #a7615c;
   }
   
   /* Tabla Resultados */
@@ -168,8 +209,12 @@ body {
   
   /* Historial */
   .history-list {
+    display: flex;
     list-style: none;
     padding: 0;
+    width: 60%;
+    min-width: 420px;
+    flex-wrap: wrap;
   }
   
   .history-list li {
@@ -178,8 +223,9 @@ body {
     padding: 10px;
     border-radius: 4px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
   }
   
   .history-list li .actions button {
@@ -188,8 +234,22 @@ body {
     cursor: pointer;
   }
   
-  .history-list li .actions button:hover {
+  .history-list li   {
     background: #6b747c;
+    list-style: none;
+    width: 650px;
+    height: 36px;
+    padding: 0;
+    min-width: 420px;
+  }
+
+  .actions button:hover {
+    background: #6b747c;
+    list-style: none;
+  }
+
+  .history-list li .actions button:hover {
+    background-color: #898f94;
   }
   
   /* Modal */
@@ -219,10 +279,11 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #515a63;
+    background: #fcfdff36;
     color: #ddd;
     border: none;
-    padding: 5px 10px;
+    padding: 6px 10px;
+    border-radius: 56%;
     cursor: pointer;
   }
   
@@ -248,6 +309,294 @@ body {
   footer a:hover {
     color: #fff;
   }
+
+#checkLimite:checked + #limiteMonto {
+  display: inline-block;
+  width: 350px;
+}
+
+
+#checkLimite {
+  width: 16px;
+  height: 20px;
+  min-width: 19px;
+  min-height: 11px;
+  padding-bottom: 3px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+  input[type="checkbox" i]{
+    width: 31px;
+    height: 18px;
+    min-width: 30px;
+    margin-right: 5px;
+  }
+
+  .form-group{
+    align-items: center;
+    margin-right: 0;
+  }
+
+  .Form-group label #add {
+    width: 200px;
+    height: 50px;
+    text-align: end;
+  }
+
+  #add{
+    display: flex;
+    align-items: center;
+    margin: 0;
+    width: 268px;
+    min-width: 268px;
+    height: 32px;
+  }
+
+  #addh{
+  width: 70%;
+  align-items: center;
+  }
+
+#debt-reduction {
+  width: 250px;
+  margin: 13px 1px 1px 1px;
+}
+
+.acreedor-especial-group{
+width: 50%;
+}
+
+/* Oculta el input por defecto */
+#hipotecaMonto {
+  display: none;
+}
+/* Muestra el input cuando el checkbox está activado */
+#checkHipoteca:checked + #hipotecaMonto {
+  display: inline-block;
+  min-width: 52px;
+}
+
+/* Oculta el input por defecto */
+#limiteMonto {
+  display: none;
+}
+/* Muestra el input cuando el checkbox está activado */
+#checkLimite:checked + #limiteMonto {
+  display: inline-block;
+}
+
+.limite-quita{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+
+
+#cajalimite {
+  display: flex;
+  align-content: center;
+  justify-items: center;
+  height: 32px;
+  margin-left: -10px;
+  align-items: center;;
+}
+
+#limit{
+  margin-bottom: 0;
+  width: 145px;
+  height: 19px;
+}
+
+#btnNuevoPlan{
+  width: 150px;
+  height: 35px;
+  margin-left: 10px;
+}
+
+#crearPlan, #limpiarCampos{
+  width: 100px;
+  height: 33px;
+  border-radius: 6px;
+  border: none;
+}
+
+#crearPlan:hover, #limpiarCampos:hover{
+  background-color: #dadada;
+}
+
+.acreedor-group input, .bien-group input{
+  min-width: 100px;
+  max-width: 500px;
+}
+
+#limit {
+margin-left: 12px;
+}
+
+.main-container{
+  padding: 20px;
+}
+
+@media (max-width: 650px) {
+  #quita-container {
+    width: 100%;
+  }
+} 
+
+@media (max-width: 395px) {
+  .acreedor-group {
+    display: flex;
+    flex-wrap:wrap;
+  }
+} 
+
+@media (max-width: 395px) {
+  .bienes-section .bien-group {
+    display: flex;
+    flex-wrap:wrap;
+  }
+} 
+
+@media (max-width: 520px) {
+.periodo-pago{
+    display: flex;
+    flex-wrap:wrap;
+  }
+} 
+
+@media (max-width: 449px) {
+  .history-section{
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    justify-items: center;
+  }
+}
+
+@media (max-width: 449px) {
+  #addh{
+    flex-wrap: wrap;
+  }
+}
+
+
+@media (max-width: 449px){
+.buttons{
+  justify-content: space-around;
+  }
+}
+
+@media (max-width: 742px){
+  .history-section {
+    flex-wrap: wrap;
+    justify-content: center;
+  }}
+
+  @media (max-width: 480px){
+    .history-list{
+      min-width: 320px;
+    }}
+
+  @media (max-width: 480px){
+    .history-list li {
+        min-width: 300px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+      }}
+
+@media (max-width: 500px){
+    .tabla-resultados table{
+      font-size: 8px;
+      width: 100%;
+    }}
+
+
+/* Estilos FAQ */
+/* Estilos mejorados para FAQ */
+.faq-intro {
+  background: #45535e;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  line-height: 1.6;
+}
+
+.faq-category {
+  margin: 40px 0;
+  padding: 20px;
+  background: #3a4650;
+  border-radius: 8px;
+}
+
+.faq-category h2 {
+  color: #fff;
+  border-bottom: 2px solid #4a5560;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 1.4em;
+}
+
+.highlight {
+  color: #6ab0f3;
+  font-weight: bold;
+}
+
+.example-box {
+  background: #4a5c6b;
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 4px solid #6ab0f3;
+  border-radius: 4px;
+}
+
+.warning-box {
+  background: #5c4a4a;
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 4px solid #f36a6a;
+  border-radius: 4px;
+}
+
+.steps-list {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.steps-list li {
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.steps-list li:before {
+  content: "➔";
+  position: absolute;
+  left: 0;
+  color: #6ab0f3;
+}
+
+.steps-list ul {
+  list-style-type: circle;
+  margin: 10px 0 10px 20px;
+  color: #9ba8b4;
+}
+
+@media (max-width: 768px) {
+  .faq-category {
+    padding: 15px;
+  }
+  
+  .example-box, .warning-box {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+}
   
 
   
