@@ -22,8 +22,7 @@
   color-scheme: dark;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
+:root[data-theme="light"] {
     --bg: #f4f5fb;
     --bg-glow-1: rgba(99, 102, 241, 0.16);
     --bg-glow-2: rgba(34, 211, 238, 0.14);
@@ -37,7 +36,6 @@
     --shadow: 0 10px 40px -14px rgba(30, 41, 90, 0.25);
     --ring: 0 0 0 3px rgba(79, 70, 229, 0.25);
     color-scheme: light;
-  }
 }
 
 /* ───────── Base ───────── */
@@ -490,3 +488,19 @@ footer a:hover { color: var(--text); }
   .history-list li { flex-direction: column; align-items: flex-start; }
   #quita-container { grid-template-columns: 1fr auto; }
 }
+
+/* ───────── Botón de tema ───────── */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 38px; min-height: 38px; height: 38px;
+  padding: 0;
+  margin-left: 6px;
+  color: var(--muted);
+  border-radius: 50%;
+}
+.theme-toggle:hover { color: var(--text); }
+.theme-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.theme-toggle .sol { display: none; }
+:root[data-theme="light"] .theme-toggle .sol { display: block; }
+:root[data-theme="light"] .theme-toggle .luna { display: none; }
