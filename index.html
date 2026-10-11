@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Planificador de Pagos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="theme-color" content="#07090e" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/png" href="./recursos/logo creditaria.png" />
 </head>
@@ -90,7 +94,7 @@
 
       <!-- NUEVO: Campo de Quita -->
       <div id="quita-container" class="form-group quita-group">
-        <label id="quita-text" for="quitaPorcentaje">Porcenta de Quita:</label>
+        <label id="quita-text" for="quitaPorcentaje">Porcentaje de Quita:</label>
         <!-- Usamos un input tipo range del 0 al 100. 
             El output muestra el valor actual de la quita en % -->
         <input 
@@ -102,12 +106,12 @@
           value="0" 
           oninput="quitaValue.textContent = quitaPorcentaje.value"
         />
-        <span id="quitaValue">0</span>%
+        <span class="quita-out"><span id="quitaValue">0</span>%</span>
       </div>
     </div>
       <!-- Botones principales -->
       <div class="buttons">
-        <button id="crearPlan">Crear</button>
+        <button id="crearPlan">Crear plan</button>
         <button id="limpiarCampos">Limpiar</button>
       </div>
 
@@ -120,9 +124,6 @@
     <!-- Historial -->
     <div class="history-section container">
       <h2 id="h">Historial de Planes</h2>
-      <tr>
-        <td colspan="2"><hr style="border: 1px solid rgb(46, 59, 68); width: 100%;" /></td>
-      </tr>
       <ul class="history-list" id="historialPlanes">
         <!-- Historial dinámico -->
       </ul>
