@@ -201,7 +201,7 @@ input[type="checkbox"]::after {
   width: 20px; height: 20px;
   border-radius: 50%;
   background: var(--muted);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s;
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), background 0.25s;
 }
 input[type="checkbox"]:checked { background: var(--accent-grad); border-color: transparent; }
 input[type="checkbox"]:checked::after { transform: translateX(18px); background: #fff; }
@@ -429,8 +429,7 @@ footer a:hover { color: var(--text); }
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--radius-sm);
+    border-radius: var(--radius-sm);
 }
 .container > p.faq-intro { max-width: none; color: var(--text); }
 
@@ -464,8 +463,8 @@ footer a:hover { color: var(--text); }
 .highlight { color: var(--accent-2); font-weight: 600; }
 
 .example-box, .warning-box { padding: 14px 16px; margin: 14px 0; border-radius: var(--radius-sm); border: 1px solid var(--border); }
-.example-box { background: rgba(34, 211, 238, 0.08); border-left: 3px solid var(--accent-2); color: var(--text); }
-.warning-box { background: rgba(255, 107, 122, 0.09); border-left: 3px solid var(--danger); color: var(--text); }
+.example-box { background: rgba(34, 211, 238, 0.08); border-color: rgba(34, 211, 238, 0.3); color: var(--text); }
+.warning-box { background: rgba(255, 107, 122, 0.09); border-color: rgba(255, 107, 122, 0.35); color: var(--text); }
 
 .steps-list { list-style: none; padding: 0; margin: 0; }
 .steps-list li { position: relative; padding-left: 28px; margin-bottom: 14px; }
